@@ -13,10 +13,7 @@
             "overgrow",
             "chlorophyll"
         ],
-<<<<<<< HEAD
         "evolves_into_id": 2,
-=======
->>>>>>> f9f6990309f7dcd04e4cb8828ff2bd2d95e7a1f7
         "sprites": {
             "front_default": "https:\/\/raw.githubusercontent.com\/PokeAPI\/sprites\/master\/sprites\/pokemon\/1.png",
             "front_shiny": "https:\/\/raw.githubusercontent.com\/PokeAPI\/sprites\/master\/sprites\/pokemon\/shiny\/1.png"
@@ -62,10 +59,7 @@
             "overgrow",
             "chlorophyll"
         ],
-<<<<<<< HEAD
         "evolves_into_id": 3,
-=======
->>>>>>> f9f6990309f7dcd04e4cb8828ff2bd2d95e7a1f7
         "sprites": {
             "front_default": "https:\/\/raw.githubusercontent.com\/PokeAPI\/sprites\/master\/sprites\/pokemon\/2.png",
             "front_shiny": "https:\/\/raw.githubusercontent.com\/PokeAPI\/sprites\/master\/sprites\/pokemon\/shiny\/2.png"
