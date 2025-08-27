@@ -1,0 +1,51 @@
+{
+    "openapi": "3.0.0",
+    "info": {
+        "title": "My Slim API",
+        "version": "1.0.0",
+        "description": "API documentation for my Slim project"
+    },
+    "servers": [
+        {
+            "url": "http://localhost:8080"
+        }
+    ],
+    "paths": {
+        "/hello": {
+            "get": {
+                "summary": "Returns a hello message",
+                "responses": {
+                    "200": {
+                        "description": "Successful response",
+                        "content": {
+                            "application/json": {
+                                "example": {
+                                    "message": "Hello, World!"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/cache": {
+            "get": {
+                "summary": "Fetches and caches data",
+                "responses": {
+                    "200": {
+                        "description": "Cache file updated or returned",
+                        "content": {
+                            "application/json": {
+                                "example": {
+                                    "status": "ok",
+                                    "cached": true,
+                                    "data": {}
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+}
