@@ -1,10 +1,5 @@
 <?php
 
-$jsonFile = __DIR__ . '/../data/PokemonInfo.json';
-// Read all the json content
-$jsonContent = file_get_contents($jsonFile);
-$data = json_decode($jsonContent, true);
-
 // select a specific pokemon
 $id = 58;
 $selectedPokemonData = null;
@@ -24,6 +19,13 @@ if (isset($selectedPokemonData)) {
 
 
 // make a api call to show a specefic pokemon
+$app->get('/moveset/{name}', function ($request, $response, $args) {
+    $args['name'];
+    $jsonFile = __DIR__ . '/../data/PokemonInfo.json';
+// Read all the json content
+    $jsonContent = file_get_contents($jsonFile);
+    $data = json_decode($jsonContent, true);
+});
 // what route for the api call
 
 //return what is needed
