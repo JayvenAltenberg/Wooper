@@ -13,4 +13,25 @@ $app->get('/', function (Request $request, Response $response, $args) {
     return $response;
 });
 
+$app->get('/swagger.json', function ($request, $response) {
+    $json = file_get_contents(__DIR__ . '/swagger.json');
+    $response->getBody()->write($json);
+    return $response->withHeader('Content-Type', 'application/json');
+});
+
+$app->get('/cache', function ($request, $response) {
+    $cacheFile = __DIR__ . '/../data/PokemonInfo.json';
+    
+    if (!file_exists($cacheFile)) {
+        $response->getBody()->write(json_encode(['error' => 'Cache not found']));
+        return $response->withHeader('Content-Type', 'application/json')->withStatus(404);
+    }
+
+    $data = file_get_contents($cacheFile);
+    $response->getBody()->write($data);
+    return $response->withHeader('Content-Type', 'application/json');
+});
+
+
+
 $app->run();

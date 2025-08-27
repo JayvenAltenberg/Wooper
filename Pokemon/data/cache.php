@@ -43,7 +43,7 @@ function findEvolutionTarget($chain, $searchId)
     return false;
 }
 
-for ($i = 1; $i < 152; $i++) {
+for ($i = 1; $i < 21; $i++) {
 
     $url = "https://pokeapi.co/api/v2/pokemon/$i/";
     $DetailsJson = file_get_contents($url);
