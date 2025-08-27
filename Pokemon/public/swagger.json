@@ -46,6 +46,50 @@
                     }
                 }
             }
+        },
+        "/evolutions": {
+            "get": {
+                "summary": "Get the evolution chain of a Pokémon",
+                "description": "Provide a Pokémon name to see its full evolution chain.",
+                "parameters": [
+                    {
+                        "name": "name",
+                        "in": "query",
+                        "description": "The name of the Pokémon to search for",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Evolution chain retrieved successfully",
+                        "content": {
+                            "application/json": {
+                                "example": {
+                                    "pokemon": "bulbasaur",
+                                    "evolution_chain": [
+                                        "bulbasaur",
+                                        "ivysaur",
+                                        "venusaur"
+                                    ]
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Pokémon not found or cache missing",
+                        "content": {
+                            "application/json": {
+                                "example": {
+                                    "error": "Pokemon not found"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
         }
     }
 }

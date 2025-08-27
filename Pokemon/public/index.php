@@ -32,6 +32,18 @@ $app->get('/cache', function ($request, $response) {
     return $response->withHeader('Content-Type', 'application/json');
 });
 
+$app->get('/evolutions', function ($request, $response) {
+    require __DIR__ . '/evoChain.php';
+
+    $queryParams = $request->getQueryParams();
+    $pokemonName = $queryParams['name'] ?? '';
+
+    $result = getEvolutionChain($pokemonName);
+
+    $response->getBody()->write(json_encode($result));
+    return $response->withHeader('Content-Type', 'application/json');
+});
+
 
 
 $app->run();
