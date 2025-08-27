@@ -105,7 +105,6 @@
             "overgrow",
             "chlorophyll"
         ],
-        "evolves_into_id": null,
         "sprites": {
             "front_default": "https:\/\/raw.githubusercontent.com\/PokeAPI\/sprites\/master\/sprites\/pokemon\/3.png",
             "front_shiny": "https:\/\/raw.githubusercontent.com\/PokeAPI\/sprites\/master\/sprites\/pokemon\/shiny\/3.png"
@@ -150,7 +149,6 @@
             "blaze",
             "solar-power"
         ],
-        "evolves_into_id": 5,
         "sprites": {
             "front_default": "https:\/\/raw.githubusercontent.com\/PokeAPI\/sprites\/master\/sprites\/pokemon\/4.png",
             "front_shiny": "https:\/\/raw.githubusercontent.com\/PokeAPI\/sprites\/master\/sprites\/pokemon\/shiny\/4.png"
@@ -195,7 +193,6 @@
             "blaze",
             "solar-power"
         ],
-        "evolves_into_id": 6,
         "sprites": {
             "front_default": "https:\/\/raw.githubusercontent.com\/PokeAPI\/sprites\/master\/sprites\/pokemon\/5.png",
             "front_shiny": "https:\/\/raw.githubusercontent.com\/PokeAPI\/sprites\/master\/sprites\/pokemon\/shiny\/5.png"
@@ -241,7 +238,6 @@
             "blaze",
             "solar-power"
         ],
-        "evolves_into_id": null,
         "sprites": {
             "front_default": "https:\/\/raw.githubusercontent.com\/PokeAPI\/sprites\/master\/sprites\/pokemon\/6.png",
             "front_shiny": "https:\/\/raw.githubusercontent.com\/PokeAPI\/sprites\/master\/sprites\/pokemon\/shiny\/6.png"
@@ -286,7 +282,6 @@
             "torrent",
             "rain-dish"
         ],
-        "evolves_into_id": 8,
         "sprites": {
             "front_default": "https:\/\/raw.githubusercontent.com\/PokeAPI\/sprites\/master\/sprites\/pokemon\/7.png",
             "front_shiny": "https:\/\/raw.githubusercontent.com\/PokeAPI\/sprites\/master\/sprites\/pokemon\/shiny\/7.png"
@@ -331,7 +326,6 @@
             "torrent",
             "rain-dish"
         ],
-        "evolves_into_id": 9,
         "sprites": {
             "front_default": "https:\/\/raw.githubusercontent.com\/PokeAPI\/sprites\/master\/sprites\/pokemon\/8.png",
             "front_shiny": "https:\/\/raw.githubusercontent.com\/PokeAPI\/sprites\/master\/sprites\/pokemon\/shiny\/8.png"
@@ -376,7 +370,6 @@
             "torrent",
             "rain-dish"
         ],
-        "evolves_into_id": null,
         "sprites": {
             "front_default": "https:\/\/raw.githubusercontent.com\/PokeAPI\/sprites\/master\/sprites\/pokemon\/9.png",
             "front_shiny": "https:\/\/raw.githubusercontent.com\/PokeAPI\/sprites\/master\/sprites\/pokemon\/shiny\/9.png"
@@ -421,7 +414,6 @@
             "shield-dust",
             "run-away"
         ],
-        "evolves_into_id": 11,
         "sprites": {
             "front_default": "https:\/\/raw.githubusercontent.com\/PokeAPI\/sprites\/master\/sprites\/pokemon\/10.png",
             "front_shiny": "https:\/\/raw.githubusercontent.com\/PokeAPI\/sprites\/master\/sprites\/pokemon\/shiny\/10.png"
@@ -465,7 +457,6 @@
         "abilities": [
             "shed-skin"
         ],
-        "evolves_into_id": 12,
         "sprites": {
             "front_default": "https:\/\/raw.githubusercontent.com\/PokeAPI\/sprites\/master\/sprites\/pokemon\/11.png",
             "front_shiny": "https:\/\/raw.githubusercontent.com\/PokeAPI\/sprites\/master\/sprites\/pokemon\/shiny\/11.png"
@@ -511,7 +502,6 @@
             "compound-eyes",
             "tinted-lens"
         ],
-        "evolves_into_id": null,
         "sprites": {
             "front_default": "https:\/\/raw.githubusercontent.com\/PokeAPI\/sprites\/master\/sprites\/pokemon\/12.png",
             "front_shiny": "https:\/\/raw.githubusercontent.com\/PokeAPI\/sprites\/master\/sprites\/pokemon\/shiny\/12.png"
@@ -557,7 +547,6 @@
             "shield-dust",
             "run-away"
         ],
-        "evolves_into_id": 14,
         "sprites": {
             "front_default": "https:\/\/raw.githubusercontent.com\/PokeAPI\/sprites\/master\/sprites\/pokemon\/13.png",
             "front_shiny": "https:\/\/raw.githubusercontent.com\/PokeAPI\/sprites\/master\/sprites\/pokemon\/shiny\/13.png"
@@ -602,7 +591,6 @@
         "abilities": [
             "shed-skin"
         ],
-        "evolves_into_id": 15,
         "sprites": {
             "front_default": "https:\/\/raw.githubusercontent.com\/PokeAPI\/sprites\/master\/sprites\/pokemon\/14.png",
             "front_shiny": "https:\/\/raw.githubusercontent.com\/PokeAPI\/sprites\/master\/sprites\/pokemon\/shiny\/14.png"
@@ -648,7 +636,6 @@
             "swarm",
             "sniper"
         ],
-        "evolves_into_id": null,
         "sprites": {
             "front_default": "https:\/\/raw.githubusercontent.com\/PokeAPI\/sprites\/master\/sprites\/pokemon\/15.png",
             "front_shiny": "https:\/\/raw.githubusercontent.com\/PokeAPI\/sprites\/master\/sprites\/pokemon\/shiny\/15.png"
@@ -695,7 +682,6 @@
             "tangled-feet",
             "big-pecks"
         ],
-        "evolves_into_id": 17,
         "sprites": {
             "front_default": "https:\/\/raw.githubusercontent.com\/PokeAPI\/sprites\/master\/sprites\/pokemon\/16.png",
             "front_shiny": "https:\/\/raw.githubusercontent.com\/PokeAPI\/sprites\/master\/sprites\/pokemon\/shiny\/16.png"
@@ -742,7 +728,6 @@
             "tangled-feet",
             "big-pecks"
         ],
-        "evolves_into_id": 18,
         "sprites": {
             "front_default": "https:\/\/raw.githubusercontent.com\/PokeAPI\/sprites\/master\/sprites\/pokemon\/17.png",
             "front_shiny": "https:\/\/raw.githubusercontent.com\/PokeAPI\/sprites\/master\/sprites\/pokemon\/shiny\/17.png"
@@ -789,7 +774,6 @@
             "tangled-feet",
             "big-pecks"
         ],
-        "evolves_into_id": null,
         "sprites": {
             "front_default": "https:\/\/raw.githubusercontent.com\/PokeAPI\/sprites\/master\/sprites\/pokemon\/18.png",
             "front_shiny": "https:\/\/raw.githubusercontent.com\/PokeAPI\/sprites\/master\/sprites\/pokemon\/shiny\/18.png"
@@ -835,7 +819,6 @@
             "guts",
             "hustle"
         ],
-        "evolves_into_id": 20,
         "sprites": {
             "front_default": "https:\/\/raw.githubusercontent.com\/PokeAPI\/sprites\/master\/sprites\/pokemon\/19.png",
             "front_shiny": "https:\/\/raw.githubusercontent.com\/PokeAPI\/sprites\/master\/sprites\/pokemon\/shiny\/19.png"
@@ -881,7 +864,6 @@
             "guts",
             "hustle"
         ],
-        "evolves_into_id": null,
         "sprites": {
             "front_default": "https:\/\/raw.githubusercontent.com\/PokeAPI\/sprites\/master\/sprites\/pokemon\/20.png",
             "front_shiny": "https:\/\/raw.githubusercontent.com\/PokeAPI\/sprites\/master\/sprites\/pokemon\/shiny\/20.png"
