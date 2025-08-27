@@ -13,8 +13,6 @@ function getEvolutionTarget($evolutionChainUrl, $currentPokemonId)
     $evolutionJson = file_get_contents($evolutionChainUrl);
     $evolutionData = json_decode($evolutionJson, true);
 
-
-
     $result = findEvolutionTarget($evolutionData['chain'], $currentPokemonId);
     return $result === false ? null : $result;
 }
@@ -43,39 +41,64 @@ function findEvolutionTarget($chain, $searchId)
     return false;
 }
 
-for ($i = 1; $i < 151; $i++) {
 
-    $url = "https://pokeapi.co/api/v2/pokemon/$i/";
-    $DetailsJson = file_get_contents($url);
-    $Details = json_decode($DetailsJson, true);
+function fetchKantoPokemon(int $limit = 151): array
+{
+    $allPokemon = [];
 
-    $SpeciesUrl = "https://pokeapi.co/api/v2/pokemon-species/$i/";
-    $SpeciesDetailsJson = file_get_contents($SpeciesUrl);
-    $SpeciesDetails = json_decode($SpeciesDetailsJson, true);
-    $EvoChain = $SpeciesDetails['evolution_chain']['url'];
+    for ($i = 1; $i <= $limit; $i++) {
+        $url = "https://pokeapi.co/api/v2/pokemon/$i/";
+        $detailsJson = file_get_contents($url);
+        $details = json_decode($detailsJson, true);
 
+        $speciesUrl = "https://pokeapi.co/api/v2/pokemon-species/$i/";
+        $speciesJson = file_get_contents($speciesUrl);
+        $speciesDetails = json_decode($speciesJson, true);
+        $evoChainUrl = $speciesDetails['evolution_chain']['url'];
 
-    $evolutesIntoId = getEvolutionTarget($EvoChain, $i);
+        $evolvesIntoId = getEvolutionTarget($evoChainUrl, $i);
 
-    $allDetailedPokemon[] = [
-        'id' => $Details['id'],
-        'name' => $Details['name'],
-        'height' => $Details['height'],
-        'weight' => $Details['weight'],
-        'base_experience' => $Details['base_experience'],
-        'types' => array_map(fn($type) => $type['type']['name'], $Details['types']),
-        'abilities' => array_map(fn($ability) => $ability['ability']['name'], $Details['abilities']),
-        'evolves_into_id' => $evolutesIntoId,
-        'sprites' => [
-            'front_default' => $Details['sprites']['front_default'],
-            'front_shiny' => $Details['sprites']['front_shiny']
-        ],
-        'stats' => array_map(function ($stat) {
+        // Extract moves from the kanto region
+        $moves = array_map(function ($move) {
+            $firstVgd = $move['version_group_details'][0];
             return [
-                'name' => $stat['stat']['name'],
-                'base_stat' => $stat['base_stat']
+                'name' => $move['move']['name'],
+                'method' => $firstVgd['move_learn_method']['name'],
+                'level_learned_at' => $firstVgd['level_learned_at']
             ];
-        }, $Details['stats'])
-    ];
+        }, $details['moves']);
+
+        $allPokemon[] = [
+            'id' => $details['id'],
+            'name' => $details['name'],
+            'height' => $details['height'],
+            'weight' => $details['weight'],
+            'base_experience' => $details['base_experience'],
+            'types' => array_map(fn($type) => $type['type']['name'], $details['types']),
+            'abilities' => array_map(fn($ability) => $ability['ability']['name'], $details['abilities']),
+            'evolves_into_id' => $evolvesIntoId,
+            'sprites' => [
+                'front_default' => $details['sprites']['front_default'],
+                'front_shiny' => $details['sprites']['front_shiny']
+            ],
+            'stats' => array_map(function ($stat) {
+                return [
+                    'name' => $stat['stat']['name'],
+                    'base_stat' => $stat['base_stat']
+                ];
+            }, $details['stats']),
+            'moves' => $moves
+        ];
+
+        //slow down requests to avoid hitting API limits
+        usleep(600000);
+    }
+
+    return $allPokemon;
 }
-file_put_contents($cacheFile, json_encode($allDetailedPokemon, JSON_PRETTY_PRINT));
+
+// Fetch Pokémon and cache to JSON
+$allPokemon = fetchKantoPokemon(151);
+file_put_contents($cacheFile, json_encode($allPokemon, JSON_PRETTY_PRINT));
+
+echo "Kanto Pokémon data cached in $cacheFile\n";
