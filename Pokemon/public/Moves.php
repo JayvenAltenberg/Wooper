@@ -11,7 +11,6 @@ foreach ($data as $pokemon) {
     };
 }
 
-// show the moves
 if (isset($selectedPokemonData)) {
     echo $selectedPokemonData['name'];
     print_r($selectedPokemonData['moves']);
