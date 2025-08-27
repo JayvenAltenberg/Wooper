@@ -1,42 +1,81 @@
 <?php
 
 $cacheFile = 'data/PokemonInfo.json';
+$url = "https://pokeapi.co/api/v2/pokemon?offset=0&limit=3";
 $allDetailedPokemon = [];
 
 if (!file_exists($cacheFile)) {
     die("File not found: $cacheFile");
 };
 
-for ($i = 1; $i < 151; $i++) {
-    $alreadyExists = array_filter($allDetailedPokemon, fn($p) => $p['id'] === $i);
-    if ($alreadyExists) {
-        continue;
+function getEvolutionTarget($evolutionChainUrl, $currentPokemonId)
+{
+    $evolutionJson = file_get_contents($evolutionChainUrl);
+    $evolutionData = json_decode($evolutionJson, true);
+
+
+
+    $result = findEvolutionTarget($evolutionData['chain'], $currentPokemonId);
+    return $result === false ? null : $result;
+}
+
+function findEvolutionTarget($chain, $searchId)
+{
+    $speciesUrl = $chain['species']['url'];
+    $currentId = (int) basename(rtrim($speciesUrl, '/'));
+
+    if ($currentId === $searchId) {
+        if (!empty($chain['evolves_to'])) {
+            $nextEvolutionUrl = $chain['evolves_to'][0]['species']['url'];
+            return (int) basename(rtrim($nextEvolutionUrl, '/'));
+        } else {
+            return null;
+        }
     }
 
-    $url = "https://pokeapi.co/api/v2/pokemon/$i/";
-    $detailsJson = file_get_contents($url);
-    $details = json_decode($detailsJson, true);
+    foreach ($chain['evolves_to'] as $evolution) {
+        $result = findEvolutionTarget($evolution, $searchId);
+        if ($result !== false) {
+            return $result;
+        }
+    }
 
-    // Make the format for what to grab from the api
+    return false;
+}
+
+for ($i = 1; $i < 152; $i++) {
+
+    $url = "https://pokeapi.co/api/v2/pokemon/$i/";
+    $DetailsJson = file_get_contents($url);
+    $Details = json_decode($DetailsJson, true);
+
+    $SpeciesUrl = "https://pokeapi.co/api/v2/pokemon-species/$i/";
+    $SpeciesDetailsJson = file_get_contents($SpeciesUrl);
+    $SpeciesDetails = json_decode($SpeciesDetailsJson, true);
+    $EvoChain = $SpeciesDetails['evolution_chain']['url'];
+
+
+    $evolutesIntoId = getEvolutionTarget($EvoChain, $i);
+
     $allDetailedPokemon[] = [
-        'id' => $details['id'],
-        'name' => $details['name'],
-        'height' => $details['height'],
-        'weight' => $details['weight'],
-        'base_experience' => $details['base_experience'],
-        'types' => array_map(fn($type) => $type['type']['name'], $details['types']),
-        'abilities' => array_map(fn($ability) => $ability['ability']['name'], $details['abilities']),
+        'id' => $Details['id'],
+        'name' => $Details['name'],
+        'height' => $Details['height'],
+        'weight' => $Details['weight'],
+        'base_experience' => $Details['base_experience'],
+        'types' => array_map(fn($type) => $type['type']['name'], $Details['types']),
+        'abilities' => array_map(fn($ability) => $ability['ability']['name'], $Details['abilities']),
+        'evolves_into_id' => $evolutesIntoId,
         'sprites' => [
-            'front_default' => $details['sprites']['front_default'],
-            'front_shiny' => $details['sprites']['front_shiny']
+            'front_default' => $Details['sprites']['front_default'],
+            'front_shiny' => $Details['sprites']['front_shiny']
         ],
         'stats' => array_map(function ($stat) {
             return [
                 'name' => $stat['stat']['name'],
                 'base_stat' => $stat['base_stat']
             ];
-        }, $details['stats'])
+        }, $Details['stats'])
     ];
-    usleep(600000);
 }
 file_put_contents($cacheFile, json_encode($allDetailedPokemon, JSON_PRETTY_PRINT));
