@@ -60,7 +60,7 @@ $attacker = findPokemonByName($attackerName, $pokemonData);
 $defender = findPokemonByName($defenderName, $pokemonData);
 
 if (!$attacker || !$defender) {
-    die("One or both Pokémon not found. Check spelling.\n");
+    die("One or both Pokémon not found.\n");
 }
 
 $multiplier = calculateTypeMultiplier($attacker['types'], $defender['types'], $typeChart);
