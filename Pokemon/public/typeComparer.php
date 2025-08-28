@@ -1,29 +1,29 @@
 <?php
 
-$pokemonFile = __DIR__ . '/../PokemonInfo.json';
-$typeChartFile = __DIR__ . '/../typechart.json';
-
+$pokemonFile = __DIR__ . '/../data/PokemonInfo.json';
+$typeChartFile = __DIR__ . '/../data/typechart.json';
 
 if (!file_exists($pokemonFile)) die("PokemonInfo.json not found.\n");
 if (!file_exists($typeChartFile)) die("typechart.json not found.\n");
 
-
 $pokemonData = json_decode(file_get_contents($pokemonFile), true);
 $typeChart = json_decode(file_get_contents($typeChartFile), true);
 
-
 if (!is_array($pokemonData)) die("Failed to decode PokemonInfo.json.\n");
 if (!is_array($typeChart)) die("Failed to decode typechart.json.\n");
-
 
 function calculateTypeMultiplier($attackerTypes, $defenderTypes, $chart)
 {
     $multiplier = 1;
     foreach ($attackerTypes as $attacker) {
         foreach ($defenderTypes as $defender) {
-            if (in_array($defender, $chart[$attacker]['strong'])) $multiplier *= 2;
-            elseif (in_array($defender, $chart[$attacker]['weak'])) $multiplier *= 0.5;
-            elseif (in_array($defender, $chart[$attacker]['immune'])) $multiplier *= 0;
+            if (in_array($defender, $chart[$attacker]['strong'])) {
+                $multiplier *= 2;
+            } elseif (in_array($defender, $chart[$attacker]['resists'])) {
+                $multiplier *= 0.5;
+            } elseif (in_array($defender, $chart[$attacker]['immune'])) {
+                $multiplier *= 0;
+            }
         }
     }
     return $multiplier;
@@ -32,20 +32,23 @@ function calculateTypeMultiplier($attackerTypes, $defenderTypes, $chart)
 function findPokemonByName($name, $pokemonList)
 {
     foreach ($pokemonList as $p) {
-        if (isset($p['name']) && strtolower($p['name']) === strtolower($name)) return $p;
+        if (isset($p['name']) && strtolower($p['name']) === strtolower($name)) {
+            return $p;
+        }
     }
     return null;
 }
 
-
 function getTypeEffectLabel($multiplier)
 {
-    if ($multiplier > 1) return "strong";
-    if ($multiplier < 1 && $multiplier > 0) return "weak";
-    if ($multiplier == 0) return "immune";
-    return "neutral";
+    if ($multiplier == 4) return "super effective (x4)";
+    if ($multiplier == 2) return "effective (x2)";
+    if ($multiplier == 1) return "neutral (x1)";
+    if ($multiplier == 0.5) return "not very effective (x0.5)";
+    if ($multiplier == 0.25) return "super ineffective (x0.25)";
+    if ($multiplier == 0) return "immune (x0)";
+    return "neutral (x$multiplier)";
 }
-
 
 echo "Pokémon 1 name: ";
 $attackerName = trim(fgets(STDIN));
@@ -63,4 +66,4 @@ if (!$attacker || !$defender) {
 $multiplier = calculateTypeMultiplier($attacker['types'], $defender['types'], $typeChart);
 $result = getTypeEffectLabel($multiplier);
 
-echo ucfirst($attacker['name']) . " vs " . ucfirst($defender['name']) . ": $result (x$multiplier)\n";
+echo ucfirst($attacker['name']) . " vs " . ucfirst($defender['name']) . ": $result\n";
