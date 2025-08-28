@@ -21,7 +21,7 @@ $app->get('/swagger.json', function ($request, $response) {
 
 $app->get('/cache', function ($request, $response) {
     $cacheFile = __DIR__ . '/../data/PokemonInfo.json';
-    
+
     if (!file_exists($cacheFile)) {
         $response->getBody()->write(json_encode(['error' => 'Cache not found']));
         return $response->withHeader('Content-Type', 'application/json')->withStatus(404);
@@ -45,5 +45,6 @@ $app->get('/evolutions', function ($request, $response) {
 });
 
 
+require __DIR__ . '/../routes/Moves.php';
 
 $app->run();
