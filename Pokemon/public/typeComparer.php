@@ -1,72 +1,62 @@
 <?php
 
-$pokemonFile = __DIR__ . '/../data/PokemonInfo.json';
-$typeChartFile = __DIR__ . '/../data/typechart.json';
-$pokemonFile = __DIR__ . '/../data/PokemonInfo.json';
-$typeChartFile = __DIR__ . '/../data/typechart.json';
+function calculateMatchup(string $attackerName, string $defenderName): array {
+    $pokemonFile = __DIR__ . '/../data/PokemonInfo.json';
+    $typeChartFile = __DIR__ . '/../data/typechart.json';
 
+    if (!file_exists($pokemonFile)) return ['error' => 'PokemonInfo.json not found'];
+    if (!file_exists($typeChartFile)) return ['error' => 'typechart.json not found'];
 
-if (!file_exists($pokemonFile)) die("PokemonInfo.json not found.\n");
-if (!file_exists($typeChartFile)) die("typechart.json not found.\n");
+    $pokemonData = json_decode(file_get_contents($pokemonFile), true);
+    $typeChart = json_decode(file_get_contents($typeChartFile), true);
 
-$pokemonData = json_decode(file_get_contents($pokemonFile), true);
-$typeChart = json_decode(file_get_contents($typeChartFile), true);
+    if (!is_array($pokemonData) || !is_array($typeChart)) {
+        return ['error' => 'Failed to decode data'];
+    }
 
-if (!is_array($pokemonData)) die("Failed to decode PokemonInfo.json.\n");
-if (!is_array($typeChart)) die("Failed to decode typechart.json.\n");
+    $findPokemonByName = function($name, $pokemonList) {
+        foreach ($pokemonList as $p) {
+            if (isset($p['name']) && strtolower($p['name']) === strtolower($name)) {
+                return $p;
+            }
+        }
+        return null;
+    };
 
-function calculateTypeMultiplier($attackerTypes, $defenderTypes, $chart)
-{
+    $getTypeEffectLabel = function($multiplier) {
+        if ($multiplier == 4) return "super effective (x4)";
+        if ($multiplier == 2) return "effective (x2)";
+        if ($multiplier == 1) return "neutral (x1)";
+        if ($multiplier == 0.5) return "not very effective (x0.5)";
+        if ($multiplier == 0.25) return "super ineffective (x0.25)";
+        if ($multiplier == 0) return "immune (x0)";
+        return "neutral (x$multiplier)";
+    };
+
+    $attacker = $findPokemonByName($attackerName, $pokemonData);
+    $defender = $findPokemonByName($defenderName, $pokemonData);
+
+    if (!$attacker || !$defender) {
+        return ['error' => 'One or both Pokémon not found'];
+    }
+
     $multiplier = 1;
-    foreach ($attackerTypes as $attacker) {
-        foreach ($defenderTypes as $defender) {
-            if (in_array($defender, $chart[$attacker]['strong'])) {
+    foreach ($attacker['types'] as $atk) {
+        foreach ($defender['types'] as $def) {
+            if (in_array($def, $typeChart[$atk]['strong'])) {
                 $multiplier *= 2;
-            } elseif (in_array($defender, $chart[$attacker]['resists'])) {
+            } elseif (in_array($def, $typeChart[$atk]['resists'])) {
                 $multiplier *= 0.5;
-            } elseif (in_array($defender, $chart[$attacker]['immune'])) {
+            } elseif (in_array($def, $typeChart[$atk]['immune'])) {
                 $multiplier *= 0;
             }
         }
     }
-    return $multiplier;
+
+    return [
+        'attacker' => $attacker['name'],
+        'defender' => $defender['name'],
+        'multiplier' => $multiplier,
+        'result' => $getTypeEffectLabel($multiplier)
+    ];
 }
-
-function findPokemonByName($name, $pokemonList)
-{
-    foreach ($pokemonList as $p) {
-        if (isset($p['name']) && strtolower($p['name']) === strtolower($name)) {
-            return $p;
-        }
-    }
-    return null;
-}
-
-function getTypeEffectLabel($multiplier)
-{
-    if ($multiplier == 4) return "super effective (x4)";
-    if ($multiplier == 2) return "effective (x2)";
-    if ($multiplier == 1) return "neutral (x1)";
-    if ($multiplier == 0.5) return "not very effective (x0.5)";
-    if ($multiplier == 0.25) return "super ineffective (x0.25)";
-    if ($multiplier == 0) return "immune (x0)";
-    return "neutral (x$multiplier)";
-}
-
-echo "Pokémon 1 name: ";
-$attackerName = trim(fgets(STDIN));
-
-echo "Pokémon 2 name: ";
-$defenderName = trim(fgets(STDIN));
-
-$attacker = findPokemonByName($attackerName, $pokemonData);
-$defender = findPokemonByName($defenderName, $pokemonData);
-
-if (!$attacker || !$defender) {
-    die("One or both Pokémon not found.\n");
-}
-
-$multiplier = calculateTypeMultiplier($attacker['types'], $defender['types'], $typeChart);
-$result = getTypeEffectLabel($multiplier);
-
-echo ucfirst($attacker['name']) . " vs " . ucfirst($defender['name']) . ": $result\n";

@@ -63,27 +63,50 @@
                     }
                 ],
                 "responses": {
-                    "200": {
-                        "description": "Evolution chain retrieved successfully",
-                        "content": {
-                            "application/json": {
-                                "example": {
-                                    "pokemon": "bulbasaur",
-                                    "evolution_chain": [
-                                        "bulbasaur",
-                                        "ivysaur",
-                                        "venusaur"
-                                    ]
-                                }
-                            }
-                        }
-                    },
                     "404": {
                         "description": "Pokémon not found or cache missing",
                         "content": {
                             "application/json": {
                                 "example": {
                                     "error": "Pokemon not found"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/typeMatchup": {
+            "get": {
+                "summary": "Calculate type effectiveness between two Pokémon",
+                "description": "Provide an attacker and defender to calculate the type matchup.",
+                "parameters": [
+                    {
+                        "name": "attacker",
+                        "in": "query",
+                        "description": "Name of the attacking Pokémon",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "defender",
+                        "in": "query",
+                        "description": "Name of the defending Pokémon",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "404": {
+                        "description": "Pokémon not found",
+                        "content": {
+                            "application/json": {
+                                "example": {
+                                    "error": "One or both Pokémon not found"
                                 }
                             }
                         }
