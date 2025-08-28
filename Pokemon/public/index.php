@@ -44,7 +44,18 @@ $app->get('/evolutions', function ($request, $response) {
     return $response->withHeader('Content-Type', 'application/json');
 });
 
+$app->get('/typeMatchup', function ($request, $response) {
+    require __DIR__ . '/typeComparer.php';
 
 require __DIR__ . '/../routes/Moves.php';
+    $queryParams = $request->getQueryParams();
+    $attacker = $queryParams['attacker'] ?? '';
+    $defender = $queryParams['defender'] ?? '';
+
+    $result = calculateMatchup($attacker, $defender);
+
+    $response->getBody()->write(json_encode($result));
+    return $response->withHeader('Content-Type', 'application/json');
+});
 
 $app->run();
