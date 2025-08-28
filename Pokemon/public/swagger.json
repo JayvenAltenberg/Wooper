@@ -1,118 +1,147 @@
 {
-    "openapi": "3.0.0",
-    "info": {
-        "title": "My Slim API",
-        "version": "1.0.0",
-        "description": "API documentation for my Slim project"
-    },
-    "servers": [
-        {
-            "url": "http://localhost:8080"
-        }
-    ],
-    "paths": {
-        "/hello": {
-            "get": {
-                "summary": "Returns a hello message",
-                "responses": {
-                    "200": {
-                        "description": "Successful response",
-                        "content": {
-                            "application/json": {
-                                "example": {
-                                    "message": "Hello, World!"
-                                }
-                            }
-                        }
-                    }
-                }
-            }
-        },
-        "/cache": {
-            "get": {
-                "summary": "Fetches and caches data",
-                "responses": {
-                    "200": {
-                        "description": "Cache file updated or returned",
-                        "content": {
-                            "application/json": {
-                                "example": {
-                                    "status": "ok",
-                                    "cached": true,
-                                    "data": {}
-                                }
-                            }
-                        }
-                    }
-                }
-            }
-        },
-        "/evolutions": {
-            "get": {
-                "summary": "Get the evolution chain of a Pokémon",
-                "description": "Provide a Pokémon name to see its full evolution chain.",
-                "parameters": [
-                    {
-                        "name": "name",
-                        "in": "query",
-                        "description": "The name of the Pokémon to search for",
-                        "required": true,
-                        "schema": {
-                            "type": "string"
-                        }
-                    }
-                ],
-                "responses": {
-                    "404": {
-                        "description": "Pokémon not found or cache missing",
-                        "content": {
-                            "application/json": {
-                                "example": {
-                                    "error": "Pokemon not found"
-                                }
-                            }
-                        }
-                    }
-                }
-            }
-        },
-        "/typeMatchup": {
-            "get": {
-                "summary": "Calculate type effectiveness between two Pokémon",
-                "description": "Provide an attacker and defender to calculate the type matchup.",
-                "parameters": [
-                    {
-                        "name": "attacker",
-                        "in": "query",
-                        "description": "Name of the attacking Pokémon",
-                        "required": true,
-                        "schema": {
-                            "type": "string"
-                        }
-                    },
-                    {
-                        "name": "defender",
-                        "in": "query",
-                        "description": "Name of the defending Pokémon",
-                        "required": true,
-                        "schema": {
-                            "type": "string"
-                        }
-                    }
-                ],
-                "responses": {
-                    "404": {
-                        "description": "Pokémon not found",
-                        "content": {
-                            "application/json": {
-                                "example": {
-                                    "error": "One or both Pokémon not found"
-                                }
-                            }
-                        }
-                    }
-                }
-            }
-        }
+  "openapi": "3.0.0",
+  "info": {
+    "title": "My Slim API",
+    "version": "1.0.0",
+    "description": "API documentation for my Slim project"
+  },
+  "servers": [
+    {
+      "url": "http://localhost:8080"
     }
+  ],
+  "paths": {
+    "/hello": {
+      "get": {
+        "summary": "Returns a hello message",
+        "responses": {
+          "200": {
+            "description": "Successful response",
+            "content": {
+              "application/json": {
+                "example": {
+                  "message": "Hello, World!"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/cache": {
+      "get": {
+        "summary": "Fetches and caches data",
+        "responses": {
+          "200": {
+            "description": "Cache file updated or returned",
+            "content": {
+              "application/json": {
+                "example": {
+                  "status": "ok",
+                  "cached": true,
+                  "data": {}
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/evolutions": {
+      "get": {
+        "summary": "Get the evolution chain of a Pokémon",
+        "description": "Provide a Pokémon name to see its full evolution chain.",
+        "parameters": [
+          {
+            "name": "name",
+            "in": "query",
+            "description": "The name of the Pokémon to search for",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "404": {
+            "description": "Pokémon not found or cache missing",
+            "content": {
+              "application/json": {
+                "example": {
+                  "error": "Pokemon not found"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/typeMatchup": {
+      "get": {
+        "summary": "Calculate type effectiveness between two Pokémon",
+        "description": "Provide an attacker and defender to calculate the type matchup.",
+        "parameters": [
+          {
+            "name": "attacker",
+            "in": "query",
+            "description": "Name of the attacking Pokémon",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "defender",
+            "in": "query",
+            "description": "Name of the defending Pokémon",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "404": {
+            "description": "Pokémon not found",
+            "content": {
+              "application/json": {
+                "example": {
+                  "error": "One or both Pokémon not found"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/moveset": {
+      "get": {
+        "summary": "Get the moveset of a Pokémon",
+        "description": "Provide a Pokémon name to see its moveset.",
+        "parameters": [
+          {
+            "name": "name",
+            "in": "query",
+            "description": "The name of the Pokémon to search for",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "404": {
+            "description": "Pokémon not found or cache missing",
+            "content": {
+              "application/json": {
+                "example": {
+                  "error": "Pokemon not found"
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
 }

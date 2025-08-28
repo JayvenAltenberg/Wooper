@@ -1,7 +1,7 @@
 <?php
 
-$app->get('/moveset/{name}', function ($request, $response, $args) {
-    $args['name'];
+function getMoves(string $pokemonName): array
+{
     $jsonFile = __DIR__ . '/../data/PokemonInfo.json';
 // Read all the json content
     $jsonContent = file_get_contents($jsonFile);
@@ -10,24 +10,20 @@ $app->get('/moveset/{name}', function ($request, $response, $args) {
 
     // loop trough every pokemon in the json till you find the right pokemon
     foreach ($data as $pokemon) {
-        if ($args['name'] === $pokemon["name"]) {
+        if ($pokemon["name"] === strtolower($pokemonName)) {
             $selectedPokemonData = $pokemon;
             break;
         };
     }
     if ($selectedPokemonData) {
-        $response->getBody()->write(json_encode([
+        return[
             'name' => $selectedPokemonData['name'],
             'moves' => $selectedPokemonData['moves']
-        ]));
-        return $response->withHeader('Content-Type', 'application/json');
+        ];
     // if the pokemon isnt found show a error
     } else {
-        $response->getBody()->write(json_encode([
-            'error' => "Pokémon '{$args['name']}' not found"
-        ]));
-        return $response
-            ->withHeader('Content-Type', 'application/json')
-            ->withStatus(404);
+        return[
+            'error' => "Pokémon '{$pokemonName}' not found"
+        ];
     }
-});
+}

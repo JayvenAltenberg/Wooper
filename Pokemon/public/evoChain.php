@@ -1,8 +1,9 @@
 <?php
 
-function getEvolutionChain(string $pokemonName): array {
+function getEvolutionChain(string $pokemonName): array
+{
     $cacheFile = __DIR__ . '/../data/PokemonInfo.json';
-    
+
     if (!file_exists($cacheFile)) {
         return ['error' => 'Cache not found'];
     }
@@ -25,7 +26,9 @@ function getEvolutionChain(string $pokemonName): array {
     $current = $startPokemon;
     while (!empty($current['evolves_into_id'])) {
         $next = array_filter($allPokemon, fn($p) => $p['id'] === $current['evolves_into_id']);
-        if (!$next) break;
+        if (!$next) {
+            break;
+        }
         $current = array_values($next)[0];
         $evolutionChain[] = $current['name'];
     }

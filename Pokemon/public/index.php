@@ -56,6 +56,16 @@ $app->get('/typeMatchup', function ($request, $response) {
     return $response->withHeader('Content-Type', 'application/json');
 });
 
-require __DIR__ . '/../routes/Moves.php';
+$app->get('/moveset', function ($request, $response) {
+    require __DIR__ . '/../routes/Moves.php';
+
+    $queryParams = $request->getQueryParams();
+    $pokemonName = $queryParams['name'] ?? '';
+
+    $result = getMoves($pokemonName);
+
+    $response->getBody()->write(json_encode($result));
+    return $response->withHeader('Content-Type', 'application/json');
+});
 
 $app->run();
