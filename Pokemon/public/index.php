@@ -46,8 +46,6 @@ $app->get('/evolutions', function ($request, $response) {
 
 $app->get('/typeMatchup', function ($request, $response) {
     require __DIR__ . '/typeComparer.php';
-
-require __DIR__ . '/../routes/Moves.php';
     $queryParams = $request->getQueryParams();
     $attacker = $queryParams['attacker'] ?? '';
     $defender = $queryParams['defender'] ?? '';
@@ -57,5 +55,7 @@ require __DIR__ . '/../routes/Moves.php';
     $response->getBody()->write(json_encode($result));
     return $response->withHeader('Content-Type', 'application/json');
 });
+
+require __DIR__ . '/../routes/Moves.php';
 
 $app->run();
