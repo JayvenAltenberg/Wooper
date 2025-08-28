@@ -1,7 +1,7 @@
 <?php
 
-$pokemonFile = __DIR__ . '/../PokemonInfo.json';
-$typeChartFile = __DIR__ . '/../typechart.json';
+$pokemonFile = __DIR__ . '/../data/PokemonInfo.json';
+$typeChartFile = __DIR__ . '/../data/typechart.json';
 
 
 if (!file_exists($pokemonFile)) die("PokemonInfo.json not found.\n");

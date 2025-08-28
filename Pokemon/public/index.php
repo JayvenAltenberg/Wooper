@@ -44,4 +44,8 @@ $app->get('/evolutions', function ($request, $response) {
     return $response->withHeader('Content-Type', 'application/json');
 });
 
-$$app->run();
+$app->get('/typeCompare', function($request, $response) {
+
+});
+
+$app->run();
