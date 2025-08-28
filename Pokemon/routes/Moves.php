@@ -16,14 +16,31 @@ function getMoves(string $pokemonName): array
         };
     }
     if ($selectedPokemonData) {
-        return[
-            'name' => $selectedPokemonData['name'],
-            'moves' => $selectedPokemonData['moves']
+        $groupedMoves = [
+            'level-up' => [],
+            'machine' => [],
+            'egg' => [],
+            'tutor' => []
         ];
+
+        foreach ($selectedPokemonData['moves'] as $move) {
+            $method = $move['method'];
+            // Only include known categories, you can add more if needed
+            if (isset($groupedMoves[$method])) {
+                $groupedMoves[$method][] = $move;
+            }
+        }
+
+        $responseData = [
+            'name' => $selectedPokemonData['name'],
+            'moves' => $groupedMoves
+        ];
+
+        return $responseData;
     // if the pokemon isnt found show a error
     } else {
         return[
-            'error' => "Pokémon '{$pokemonName}' not found"
+        'error' => "Pokémon '{$pokemonName}' not found"
         ];
     }
 }
