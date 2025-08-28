@@ -68,4 +68,18 @@ $app->get('/moveset', function ($request, $response) {
     return $response->withHeader('Content-Type', 'application/json');
 });
 
+$app->get('/encounters', function ($request, $response) {
+    require __DIR__ . '/encounters.php';
+
+    $queryParams = $request->getQueryParams();
+    $name = $queryParams['name'] ?? '';
+    $gameVersion = $queryParams['game-version'] ?? '';
+
+    $result = findEncounters($name, $gameVersion);
+
+    $response->getBody()->write(json_encode($result));
+    return $response->withHeader('Content-Type', 'application/json');
+
+});
+
 $app->run();

@@ -142,6 +142,42 @@
           }
         }
       }
+    },
+    "/encounters": {
+      "get": {
+        "summary": "Look where to find a pokemon",
+        "description": "Provide a pokemon and game version.",
+        "parameters": [
+          {
+            "name": "name",
+            "in": "query",
+            "description": "Name of the  Pokémon",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "game-version",
+            "in": "query",
+            "description": "Name of the game version",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "404": {
+            "description": "Pokémon not found",
+            "content": {
+              "application/json": {
+
+              }
+            }
+          }
+        }
+      }
     }
   }
 }
