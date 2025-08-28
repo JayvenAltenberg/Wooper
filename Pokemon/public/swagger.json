@@ -11,23 +11,6 @@
     }
   ],
   "paths": {
-    "/hello": {
-      "get": {
-        "summary": "Returns a hello message",
-        "responses": {
-          "200": {
-            "description": "Successful response",
-            "content": {
-              "application/json": {
-                "example": {
-                  "message": "Hello, World!"
-                }
-              }
-            }
-          }
-        }
-      }
-    },
     "/cache": {
       "get": {
         "summary": "Fetches and caches data",
@@ -136,6 +119,69 @@
               "application/json": {
                 "example": {
                   "error": "Pokemon not found"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/encounters": {
+      "get": {
+        "summary": "Look where to find a pokemon",
+        "description": "Provide a pokemon and game version.",
+        "parameters": [
+          {
+            "name": "name",
+            "in": "query",
+            "description": "Name of the  Pokémon",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "game-version",
+            "in": "query",
+            "description": "Name of the game version",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "404": {
+            "description": "Pokémon not found",
+            "content": {
+              "application/json": {}
+            }
+          }
+        }
+      }
+    },
+    "/stat": {
+      "get": {
+        "summary": "find the pokemon with the highest of a specific stat",
+        "description": "Provide a stat",
+        "parameters": [
+          {
+            "name": "stat",
+            "in": "query",
+            "description": "The name of the stat to search for",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "404": {
+            "description": "stat not found or cache missing",
+            "content": {
+              "application/json": {
+                "example": {
+                  "error": "stat not found"
                 }
               }
             }

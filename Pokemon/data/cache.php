@@ -3,62 +3,39 @@
 $cacheFile = 'data/PokemonInfo.json';
 $url = "https://pokeapi.co/api/v2/pokemon?offset=0&limit=3";
 $allDetailedPokemon = [];
+require __DIR__ . '/cacheFunctions.php';
 
 if (!file_exists($cacheFile)) {
     die("File not found: $cacheFile");
 };
 
-function getEvolutionTarget($evolutionChainUrl, $currentPokemonId)
-{
-    $evolutionJson = file_get_contents($evolutionChainUrl);
-    $evolutionData = json_decode($evolutionJson, true);
-
-    $result = findEvolutionTarget($evolutionData['chain'], $currentPokemonId);
-    return $result === false ? null : $result;
-}
-
-function findEvolutionTarget($chain, $searchId)
-{
-    $speciesUrl = $chain['species']['url'];
-    $currentId = (int) basename(rtrim($speciesUrl, '/'));
-
-    if ($currentId === $searchId) {
-        if (!empty($chain['evolves_to'])) {
-            $nextEvolutionUrl = $chain['evolves_to'][0]['species']['url'];
-            return (int) basename(rtrim($nextEvolutionUrl, '/'));
-        } else {
-            return null;
-        }
-    }
-
-    foreach ($chain['evolves_to'] as $evolution) {
-        $result = findEvolutionTarget($evolution, $searchId);
-        if ($result !== false) {
-            return $result;
-        }
-    }
-
-    return false;
-}
 
 
 function fetchKantoPokemon(int $limit = 151): array
 {
     $allPokemon = [];
 
-    for ($i = 1; $i <= $limit; $i++) {
-        $url = "https://pokeapi.co/api/v2/pokemon/$i/";
-        $detailsJson = file_get_contents($url);
-        $details = json_decode($detailsJson, true);
+    $cacheFile = __DIR__ . '/data/PokemonInfo.json';
+    $existingData = file_exists($cacheFile) ? json_decode(file_get_contents($cacheFile), true) : [];
+    $existingById = [];
 
-        $speciesUrl = "https://pokeapi.co/api/v2/pokemon-species/$i/";
-        $speciesJson = file_get_contents($speciesUrl);
-        $speciesDetails = json_decode($speciesJson, true);
-        $evoChainUrl = $speciesDetails['evolution_chain']['url'];
+    foreach ($existingData as $p) {
+        $existingById[$p['id']] = $p;
+    }
+
+    for ($i = 1; $i <= $limit; $i++) {
+        if (isset($existingById[$i])) {
+            $allPokemon[] = $existingById[$i];
+            continue;
+        }
+
+        $details = genData($i);
+        $evoChainUrl = evoData($i);
+        $encounterData = encounterData($i);
 
         $evolvesIntoId = getEvolutionTarget($evoChainUrl, $i);
+        $encounters = encounterDetails($encounterData);
 
-        // Extract moves from the kanto region
         $moves = array_map(function ($move) {
             $firstVgd = $move['version_group_details'][0];
             return [
@@ -87,17 +64,16 @@ function fetchKantoPokemon(int $limit = 151): array
                     'base_stat' => $stat['base_stat']
                 ];
             }, $details['stats']),
-            'moves' => $moves
+            'moves' => $moves,
+            'locations' => $encounters
         ];
 
-        //slow down requests to avoid hitting API limits
         usleep(600000);
     }
 
     return $allPokemon;
 }
 
-// Fetch Pokémon and cache to JSON
 $allPokemon = fetchKantoPokemon(151);
 file_put_contents($cacheFile, json_encode($allPokemon, JSON_PRETTY_PRINT));
 
