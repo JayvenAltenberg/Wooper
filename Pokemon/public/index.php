@@ -8,11 +8,6 @@ require __DIR__ . '/../vendor/autoload.php';
 
 $app = AppFactory::create();
 
-$app->get('/', function (Request $request, Response $response, $args) {
-    $response->getBody()->write("Hello world!");
-    return $response;
-});
-
 $app->get('/swagger.json', function ($request, $response) {
     $json = file_get_contents(__DIR__ . '/swagger.json');
     $response->getBody()->write($json);
@@ -69,7 +64,7 @@ $app->get('/moveset', function ($request, $response) {
 });
 
 $app->get('/encounters', function ($request, $response) {
-    require __DIR__ . '/encounters.php';
+    require __DIR__ . '/../encounters.php';
 
     $queryParams = $request->getQueryParams();
     $name = $queryParams['name'] ?? '';
@@ -79,7 +74,18 @@ $app->get('/encounters', function ($request, $response) {
 
     $response->getBody()->write(json_encode($result));
     return $response->withHeader('Content-Type', 'application/json');
+});
 
+$app->get('/stat', function ($request, $response) {
+    require __DIR__ . '/statCheck.php';
+
+    $queryParams = $request->getQueryParams();
+    $stat = $queryParams['stat'];
+
+    $result = highestStat($stat);
+
+    $response->getBody()->write(json_encode($result));
+    return $response->withHeader('Content-Type', 'application/json');
 });
 
 $app->run();
