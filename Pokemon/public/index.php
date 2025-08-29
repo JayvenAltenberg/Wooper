@@ -64,7 +64,7 @@ $app->get('/moveset', function ($request, $response) {
 });
 
 $app->get('/encounters', function ($request, $response) {
-    require __DIR__ . '/../encounters.php';
+    require __DIR__ . '/encounters.php';
 
     $queryParams = $request->getQueryParams();
     $name = $queryParams['name'] ?? '';
